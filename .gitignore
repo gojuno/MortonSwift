@@ -1,0 +1,6 @@
+# Xcode
+*.pbxuser
+*.xcscmblueprint
+xcuserdata
+
+Carthage
