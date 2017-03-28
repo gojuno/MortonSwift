@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F96F6BFA1E841454006CD6C1 /* MortonSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F96F6BF01E841454006CD6C1 /* MortonSwift.framework */; };
-		F96F6BFF1E841454006CD6C1 /* HelloWorldSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96F6BFE1E841454006CD6C1 /* HelloWorldSpec.swift */; };
-		F9AF18C11E8415EF00802C23 /* HelloWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF18C01E8415EF00802C23 /* HelloWorld.swift */; };
+		F96F6BFF1E841454006CD6C1 /* Morton64Spec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96F6BFE1E841454006CD6C1 /* Morton64Spec.swift */; };
+		F9AF18C11E8415EF00802C23 /* Morton64.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF18C01E8415EF00802C23 /* Morton64.swift */; };
 		F9AF18C51E84165200802C23 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9AF18C31E84165200802C23 /* Nimble.framework */; };
 		F9AF18C61E84165200802C23 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9AF18C41E84165200802C23 /* Quick.framework */; };
 /* End PBXBuildFile section */
@@ -28,9 +28,9 @@
 		F96F6BF01E841454006CD6C1 /* MortonSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MortonSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F96F6BF41E841454006CD6C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F96F6BF91E841454006CD6C1 /* MortonSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MortonSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F96F6BFE1E841454006CD6C1 /* HelloWorldSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloWorldSpec.swift; sourceTree = "<group>"; };
+		F96F6BFE1E841454006CD6C1 /* Morton64Spec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Morton64Spec.swift; sourceTree = "<group>"; };
 		F96F6C001E841454006CD6C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F9AF18C01E8415EF00802C23 /* HelloWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloWorld.swift; sourceTree = "<group>"; };
+		F9AF18C01E8415EF00802C23 /* Morton64.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Morton64.swift; sourceTree = "<group>"; };
 		F9AF18C31E84165200802C23 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Carthage/Checkouts/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
 		F9AF18C41E84165200802C23 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "Carthage/Checkouts/Quick/build/Debug-iphoneos/Quick.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +78,7 @@
 		F96F6BF21E841454006CD6C1 /* MortonSwift */ = {
 			isa = PBXGroup;
 			children = (
-				F9AF18C01E8415EF00802C23 /* HelloWorld.swift */,
+				F9AF18C01E8415EF00802C23 /* Morton64.swift */,
 				F96F6BF41E841454006CD6C1 /* Info.plist */,
 			);
 			path = MortonSwift;
@@ -87,7 +87,7 @@
 		F96F6BFD1E841454006CD6C1 /* MortonSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				F96F6BFE1E841454006CD6C1 /* HelloWorldSpec.swift */,
+				F96F6BFE1E841454006CD6C1 /* Morton64Spec.swift */,
 				F96F6C001E841454006CD6C1 /* Info.plist */,
 			);
 			path = MortonSwiftTests;
@@ -212,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9AF18C11E8415EF00802C23 /* HelloWorld.swift in Sources */,
+				F9AF18C11E8415EF00802C23 /* Morton64.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F96F6BFF1E841454006CD6C1 /* HelloWorldSpec.swift in Sources */,
+				F96F6BFF1E841454006CD6C1 /* Morton64Spec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
