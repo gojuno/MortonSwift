@@ -54,9 +54,7 @@ class Morton64 {
         }
 
         var _rshifts: [UInt64] = []
-        for e in _lshifts.dropFirst(1) {
-            _rshifts.append(e)
-        }
+        _rshifts += _lshifts.dropFirst(1)
         _rshifts.append(0)
 
         dimensions = _dimensions
@@ -71,56 +69,33 @@ class Morton64 {
             throw Morton64Error.packDimensions(expected: dimensions, got: UInt64(values.count))
         }
 
-        var vi: Int = 0
-        while vi < values.count {
-            if values[vi] >= (1 << bits) {
-                throw Morton64Error.packBadValue(value: values[vi])
-            }
-            vi += 1
+        let wrongValues = values.filter {
+            (value: UInt64) in value >= 1 << bits
         }
 
-        var code: UInt64 = 0
-        var i: UInt64 = 0
-        while i < dimensions {
-            code |= Split(values[Int(i)]) << i
-            i += 1
+        if wrongValues.count > 0 {
+            throw Morton64Error.packBadValue(value: wrongValues[0])
+        }
+
+        let code: UInt64 = values.enumerate().reduce(0) {
+            (c: UInt64, iv: (i: Int, v: UInt64)) in c | (Split(iv.v) << UInt64(iv.i))
         }
 
         return UInt64ToInt64(code)
     }
 
     func SPack(_ values: [Int64]) throws -> Int64 {
-        var uvalues: [UInt64] = []
-        var i: Int = 0
-          while i < values.count {
-              uvalues.append(try ShiftSign(values[i]))
-              i += 1
-        }
-
-        return try Pack(uvalues)
+        return try Pack(values.map(ShiftSign))
     }
 
     func Unpack(_ code: Int64) -> [UInt64] {
-        var values: [UInt64] = []
-        var i: UInt64 = 0
-        while i < dimensions {
-            values.append(Compact(Int64ToUInt64(code) >> i))
-            i += 1
+        return (0...(dimensions - 1)).map {
+            (i: UInt64) in Compact(Int64ToUInt64(code) >> i)
         }
-
-        return values
     }
 
     func SUnpack(_ code: Int64) -> [Int64] {
-        let uvalues: [UInt64] = Unpack(code)
-        var values: [Int64] = []
-        var i: Int = 0
-        while i < Int(dimensions) {
-            values.append(UnshiftSign(uvalues[i]))
-            i += 1
-        }
-
-        return values
+        return Unpack(code).map(UnshiftSign)
     }
 
     private func ShiftSign(_ value: Int64) throws -> UInt64 {
@@ -141,32 +116,22 @@ class Morton64 {
         let sign = value & (1 << (bits - 1))
         var svalue = UInt64ToInt64(value & ((1 << (bits - 1)) - 1))
         if sign != 0 {
-                svalue = -svalue
+            svalue = -svalue
         }
 
         return svalue
     }
 
     private func Split(_ value: UInt64) -> UInt64 {
-        var code: UInt64 = value
-        var o: Int = 0
-        while o < masks.count {
-            code = (code | (code << lshifts[o])) & masks[o]
-            o += 1
+        return zip(lshifts, masks).reduce(value) {
+            (c: UInt64, lsm: (ls: UInt64, m: UInt64)) in (c | (c << lsm.ls)) & lsm.m
         }
-
-        return code
     }
 
     private func Compact(_ code: UInt64) -> UInt64 {
-        var value: UInt64 = code
-        var o: Int = masks.count - 1
-        while o >= 0 {
-            value = (value | (value >> rshifts[o])) & masks[o]
-            o -= 1
+        return zip(rshifts, masks).reverse().reduce(code) {
+            (v: UInt64, rsm: (rs: UInt64, m: UInt64)) in (v | (v >> rsm.rs)) & rsm.m
         }
-
-        return value
     }
 
     private func Int64ToUInt64(_ value: Int64) -> UInt64 {
