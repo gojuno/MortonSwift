@@ -1,27 +1,27 @@
 import Foundation
 
-enum Morton64Error: ErrorType {
+public enum Morton64Error: ErrorType {
     case initialization(dimensions: UInt64, bits: UInt64)
     case packDimensions(expected: UInt64, got: UInt64)
     case packBadValue(value: UInt64)
     case sPackBadValue(value: Int64)
 }
 
-class Morton64 {
+public final class Morton64 {
     let dimensions: UInt64
     let bits: UInt64
     let masks: [UInt64]
     let lshifts: [UInt64]
     let rshifts: [UInt64]
 
-    init(dimensions _dimensions: UInt64, bits _bits: UInt64) throws {
-        if _dimensions == 0 || _bits == 0 || _dimensions * _bits > 64 {
-            throw Morton64Error.initialization(dimensions: _dimensions, bits: _bits)
+    public init(dimensions: UInt64, bits: UInt64) throws {
+        guard dimensions != 0 && bits != 0 && dimensions * bits <= 64 else {
+            throw Morton64Error.initialization(dimensions: dimensions, bits: bits)
         }
 
-        var mask: UInt64 = (1 << _bits) - 1
+        var mask: UInt64 = (1 << bits) - 1
 
-        var shift: UInt64 = _dimensions * (_bits - 1)
+        var shift: UInt64 = dimensions * (bits - 1)
         shift |= shift >> 1
         shift |= shift >> 2
         shift |= shift >> 4
@@ -30,42 +30,42 @@ class Morton64 {
         shift |= shift >> 32
         shift -= shift >> 1
 
-        var _masks: [UInt64] = [mask]
-        var _lshifts: [UInt64] = [0]
+        var masks: [UInt64] = [mask]
+        var lshifts: [UInt64] = [0]
 
         while shift > 0 {
             mask = 0
             var shifted: UInt64 = 0
             var bit: UInt64 = 0
 
-            while bit < _bits {
-                let distance: UInt64 = (_dimensions * bit) - bit
+            while bit < bits {
+                let distance: UInt64 = (dimensions * bit) - bit
                 shifted |= shift & distance
                 mask |= (1 << bit) << (((shift - 1) ^ 0xffffffffffffffff) & distance)
                 bit += 1
             }
 
             if shifted != 0 {
-                _masks.append(mask)
-                _lshifts.append(shift)
+                masks.append(mask)
+                lshifts.append(shift)
             }
 
             shift >>= 1
         }
 
-        var _rshifts: [UInt64] = []
-        _rshifts += _lshifts.dropFirst(1)
-        _rshifts.append(0)
+        var rshifts: [UInt64] = []
+        rshifts += lshifts.dropFirst(1)
+        rshifts.append(0)
 
-        dimensions = _dimensions
-        bits = _bits
-        masks = _masks
-        lshifts = _lshifts
-        rshifts = _rshifts
+        self.dimensions = dimensions
+        self.bits = bits
+        self.masks = masks
+        self.lshifts = lshifts
+        self.rshifts = rshifts
     }
 
-    func Pack(_ values: [UInt64]) throws -> Int64 {
-        if dimensions != UInt64(values.count) {
+    public func pack(values: [UInt64]) throws -> Int64 {
+        guard dimensions == UInt64(values.count) else {
             throw Morton64Error.packDimensions(expected: dimensions, got: UInt64(values.count))
         }
 
@@ -73,48 +73,50 @@ class Morton64 {
             (value: UInt64) in value >= 1 << bits
         }
 
-        if wrongValues.count > 0 {
+        guard wrongValues.count == 0 else {
             throw Morton64Error.packBadValue(value: wrongValues[0])
         }
 
         let code: UInt64 = values.enumerate().reduce(0) {
-            (c: UInt64, iv: (i: Int, v: UInt64)) in c | (Split(iv.v) << UInt64(iv.i))
+            (c: UInt64, iv: (i: Int, v: UInt64)) in c | (split(iv.v) << UInt64(iv.i))
         }
 
-        return UInt64ToInt64(code)
+        return code.toInt64
     }
 
-    func SPack(_ values: [Int64]) throws -> Int64 {
-        return try Pack(values.map(ShiftSign))
+    public func sPack(values: [Int64]) throws -> Int64 {
+        return try pack(values.map(shiftSign))
     }
 
-    func Unpack(_ code: Int64) -> [UInt64] {
-        return (0...(dimensions - 1)).map {
-            (i: UInt64) in Compact(Int64ToUInt64(code) >> i)
+    public func unpack(code: Int64) -> [UInt64] {
+        return (0..<dimensions).map {
+            (i: UInt64) in compact(code.toUInt64 >> i)
         }
     }
 
-    func SUnpack(_ code: Int64) -> [Int64] {
-        return Unpack(code).map(UnshiftSign)
+    public func sUnpack(code: Int64) -> [Int64] {
+        return unpack(code).map(unshiftSign)
     }
+}
 
-    private func ShiftSign(_ value: Int64) throws -> UInt64 {
-        if value >= UInt64ToInt64(1 << (bits - 1)) || value <= -UInt64ToInt64(1 << (bits - 1)) {
+private extension Morton64 {
+    func shiftSign(value: Int64) throws -> UInt64 {
+        guard value < (1 << (bits - 1)).toInt64 && value > -(1 << (bits - 1)).toInt64 else {
             throw Morton64Error.sPackBadValue(value: value)
         }
 
         var svalue: Int64 = value
         if svalue < 0 {
             svalue = -svalue
-            svalue |= UInt64ToInt64(1 << (bits - 1))
+            svalue |= (1 << (bits - 1)).toInt64
         }
 
-        return Int64ToUInt64(svalue)
+        return svalue.toUInt64
     }
 
-    private func UnshiftSign(_ value: UInt64) -> Int64 {
+    func unshiftSign(value: UInt64) -> Int64 {
         let sign = value & (1 << (bits - 1))
-        var svalue = UInt64ToInt64(value & ((1 << (bits - 1)) - 1))
+        var svalue = (value & ((1 << (bits - 1)) - 1)).toInt64
         if sign != 0 {
             svalue = -svalue
         }
@@ -122,23 +124,27 @@ class Morton64 {
         return svalue
     }
 
-    private func Split(_ value: UInt64) -> UInt64 {
+    func split(value: UInt64) -> UInt64 {
         return zip(lshifts, masks).reduce(value) {
             (c: UInt64, lsm: (ls: UInt64, m: UInt64)) in (c | (c << lsm.ls)) & lsm.m
         }
     }
 
-    private func Compact(_ code: UInt64) -> UInt64 {
+    func compact(code: UInt64) -> UInt64 {
         return zip(rshifts, masks).reverse().reduce(code) {
             (v: UInt64, rsm: (rs: UInt64, m: UInt64)) in (v | (v >> rsm.rs)) & rsm.m
         }
     }
+}
 
-    private func Int64ToUInt64(_ value: Int64) -> UInt64 {
-        return UInt64(bitPattern: value)
+private extension Int64 {
+    var toUInt64: UInt64 {
+        return UInt64(bitPattern: self)
     }
+}
 
-    private func UInt64ToInt64(_ value: UInt64) -> Int64 {
-        return Int64(bitPattern: value)
+private extension UInt64 {
+    var toInt64: Int64 {
+        return Int64(bitPattern: self)
     }
 }
