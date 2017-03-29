@@ -1,1 +1,9 @@
-# MortonSwift
+* Morton Pack/Unpack Library
+** Basics
+Check [[https://en.wikipedia.org/wiki/Z-order_curve][wikipedia]] for details.
+** Example
+#+BEGIN_SRC swift
+let m = Morton65(dimensions: 2, bits: 32)
+let code = m.pack(13, 42)    // pack two values
+let values = m.unpack(code)  // should get back 13 and 42
+#+END_SRC
