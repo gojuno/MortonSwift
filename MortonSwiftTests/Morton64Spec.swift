@@ -13,7 +13,7 @@ final class Morton64Spec: QuickSpec {
             it("can't initialize with dimensions \(dimensions) and bits \(bits)") {
                 expect {
                     try Morton64(dimensions: dimensions, bits: bits)
-                    }.to(throwError())
+                }.to(throwError())
             }
         }
 
@@ -23,7 +23,7 @@ final class Morton64Spec: QuickSpec {
                 let values = [UInt64](count: Int(dimensions), repeatedValue: value)
                 expect {
                     try m.pack(values)
-                    }.to(throwError())
+                }.to(throwError())
             }
         }
 
@@ -33,7 +33,7 @@ final class Morton64Spec: QuickSpec {
                 let values = [Int64](count: Int(dimensions), repeatedValue: value)
                 expect {
                     try m.sPack(values)
-                    }.to(throwError())
+                }.to(throwError())
             }
         }
 
