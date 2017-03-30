@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:MortonSwift.xcodeproj">
+      location = "container:Morton.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Carthage/Checkouts/Nimble/Nimble.xcodeproj">

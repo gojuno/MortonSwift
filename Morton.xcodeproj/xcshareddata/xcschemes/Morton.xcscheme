@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F96F6BEF1E841454006CD6C1"
-               BuildableName = "MortonSwift.framework"
-               BlueprintName = "MortonSwift"
-               ReferencedContainer = "container:MortonSwift.xcodeproj">
+               BuildableName = "Morton.framework"
+               BlueprintName = "Morton"
+               ReferencedContainer = "container:Morton.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F96F6BF81E841454006CD6C1"
-               BuildableName = "MortonSwiftTests.xctest"
-               BlueprintName = "MortonSwiftTests"
-               ReferencedContainer = "container:MortonSwift.xcodeproj">
+               BuildableName = "MortonTests.xctest"
+               BlueprintName = "MortonTests"
+               ReferencedContainer = "container:Morton.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F96F6BEF1E841454006CD6C1"
-            BuildableName = "MortonSwift.framework"
-            BlueprintName = "MortonSwift"
-            ReferencedContainer = "container:MortonSwift.xcodeproj">
+            BuildableName = "Morton.framework"
+            BlueprintName = "Morton"
+            ReferencedContainer = "container:Morton.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F96F6BEF1E841454006CD6C1"
-            BuildableName = "MortonSwift.framework"
-            BlueprintName = "MortonSwift"
-            ReferencedContainer = "container:MortonSwift.xcodeproj">
+            BuildableName = "Morton.framework"
+            BlueprintName = "Morton"
+            ReferencedContainer = "container:Morton.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F96F6BEF1E841454006CD6C1"
-            BuildableName = "MortonSwift.framework"
-            BlueprintName = "MortonSwift"
-            ReferencedContainer = "container:MortonSwift.xcodeproj">
+            BuildableName = "Morton.framework"
+            BlueprintName = "Morton"
+            ReferencedContainer = "container:Morton.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

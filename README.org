@@ -3,6 +3,8 @@
 Check [[https://en.wikipedia.org/wiki/Z-order_curve][wikipedia]] for details.
 ** Example
 #+BEGIN_SRC swift
+import Morton
+
 let m = Morton64(dimensions: 2, bits: 32)
 let code = m.pack(13, 42)    // pack two values
 let values = m.unpack(code)  // should get back 13 and 42

@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F96F6BF81E841454006CD6C1"
-               BuildableName = "MortonSwiftTests.xctest"
-               BlueprintName = "MortonSwiftTests"
-               ReferencedContainer = "container:MortonSwift.xcodeproj">
+               BuildableName = "MortonTests.xctest"
+               BlueprintName = "MortonTests"
+               ReferencedContainer = "container:Morton.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

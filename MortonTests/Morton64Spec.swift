@@ -3,7 +3,7 @@ import Foundation
 import Quick
 import Nimble
 
-import MortonSwift
+import Morton
 
 final class Morton64Spec: QuickSpec {
 
