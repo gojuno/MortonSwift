@@ -84,8 +84,16 @@ public final class Morton64 {
         return code.toInt64
     }
 
+    public func pack(head: UInt64, _ tail: UInt64...) throws -> Int64 {
+        return try pack([head] + tail)
+    }
+
     public func sPack(values: [Int64]) throws -> Int64 {
         return try pack(values.map(shiftSign))
+    }
+
+    public func sPack(head: Int64, _ tail: Int64...) throws -> Int64 {
+        return try sPack([head] + tail)
     }
 
     public func unpack(code: Int64) -> [UInt64] {

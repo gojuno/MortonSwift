@@ -142,5 +142,23 @@ final class Morton64Spec: QuickSpec {
             let values = range.map { 1 - 2 * ($0 % 2) }
             doTestSPackUnpack(32, 2, values)
         }
+
+        describe("variadic pack") {
+            it("should pack like its array-based counterpart") {
+                let m = try! Morton64(dimensions: 2, bits: 32)
+                let expectedCode = try! m.pack([1, 2])
+                let code = try! m.pack(1, 2)
+                expect(code).to(equal(expectedCode))
+            }
+        }
+
+        describe("variadic spack") {
+            it("should spack like its array-based counterpart") {
+                let m = try! Morton64(dimensions: 2, bits: 32)
+                let expectedCode = try! m.sPack([1, 2])
+                let code = try! m.sPack(1, 2)
+                expect(code).to(equal(expectedCode))
+            }
+        }
     }
 }
