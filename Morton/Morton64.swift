@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Morton64Error: ErrorType {
+public enum Morton64Error: Error {
     case initialization(dimensions: UInt64, bits: UInt64)
     case packDimensions(expected: UInt64, got: UInt64)
     case packBadValue(value: UInt64)
@@ -64,7 +64,7 @@ public final class Morton64 {
         self.rshifts = rshifts
     }
 
-    public func pack(values: [UInt64]) throws -> Int64 {
+    public func pack(_ values: [UInt64]) throws -> Int64 {
         guard dimensions == UInt64(values.count) else {
             throw Morton64Error.packDimensions(expected: dimensions, got: UInt64(values.count))
         }
@@ -77,38 +77,38 @@ public final class Morton64 {
             throw Morton64Error.packBadValue(value: wrongValues[0])
         }
 
-        let code: UInt64 = values.enumerate().reduce(0) {
+        let code: UInt64 = values.enumerated().reduce(0) {
             (c: UInt64, iv: (i: Int, v: UInt64)) in c | (split(iv.v) << UInt64(iv.i))
         }
 
         return code.toInt64
     }
 
-    public func pack(head: UInt64, _ tail: UInt64...) throws -> Int64 {
+    public func pack(_ head: UInt64, _ tail: UInt64...) throws -> Int64 {
         return try pack([head] + tail)
     }
 
-    public func sPack(values: [Int64]) throws -> Int64 {
+    public func sPack(_ values: [Int64]) throws -> Int64 {
         return try pack(values.map(shiftSign))
     }
 
-    public func sPack(head: Int64, _ tail: Int64...) throws -> Int64 {
+    public func sPack(_ head: Int64, _ tail: Int64...) throws -> Int64 {
         return try sPack([head] + tail)
     }
 
-    public func unpack(code: Int64) -> [UInt64] {
+    public func unpack(_ code: Int64) -> [UInt64] {
         return (0..<dimensions).map {
             (i: UInt64) in compact(code.toUInt64 >> i)
         }
     }
 
-    public func sUnpack(code: Int64) -> [Int64] {
+    public func sUnpack(_ code: Int64) -> [Int64] {
         return unpack(code).map(unshiftSign)
     }
 }
 
 private extension Morton64 {
-    func shiftSign(value: Int64) throws -> UInt64 {
+    func shiftSign(_ value: Int64) throws -> UInt64 {
         guard value < (1 << (bits - 1)).toInt64 && value > -(1 << (bits - 1)).toInt64 else {
             throw Morton64Error.sPackBadValue(value: value)
         }
@@ -122,7 +122,7 @@ private extension Morton64 {
         return svalue.toUInt64
     }
 
-    func unshiftSign(value: UInt64) -> Int64 {
+    func unshiftSign(_ value: UInt64) -> Int64 {
         let sign = value & (1 << (bits - 1))
         var svalue = (value & ((1 << (bits - 1)) - 1)).toInt64
         if sign != 0 {
@@ -132,14 +132,14 @@ private extension Morton64 {
         return svalue
     }
 
-    func split(value: UInt64) -> UInt64 {
+    func split(_ value: UInt64) -> UInt64 {
         return zip(lshifts, masks).reduce(value) {
             (c: UInt64, lsm: (ls: UInt64, m: UInt64)) in (c | (c << lsm.ls)) & lsm.m
         }
     }
 
-    func compact(code: UInt64) -> UInt64 {
-        return zip(rshifts, masks).reverse().reduce(code) {
+    func compact(_ code: UInt64) -> UInt64 {
+        return zip(rshifts, masks).reversed().reduce(code) {
             (v: UInt64, rsm: (rs: UInt64, m: UInt64)) in (v | (v >> rsm.rs)) & rsm.m
         }
     }
