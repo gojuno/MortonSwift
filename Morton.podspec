@@ -9,10 +9,10 @@
 Pod::Spec.new do |s|
 
   s.name         = "Morton"
-  s.version      = "2.0.2"
+  s.version      = "2.0.4"
   s.summary      = "MortonSwift"
   s.homepage     = "https://github.com/gtforge/MortonSwift"
-  s.platform     = :ios, "10.0"
+  s.platform     = :ios, "9.0"
   s.license      = "BSD"
   s.author             = { "Gil Polak" => "gilp@gett.com" }
   s.source       = { :git => "https://github.com/gtforge/MortonSwift.git", :tag => "#{s.version}" }
