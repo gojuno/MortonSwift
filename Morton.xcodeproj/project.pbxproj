@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B361B15121490EF100206086 /* Info.plist in Headers */ = {isa = PBXBuildFile; fileRef = F96F6BF41E841454006CD6C1 /* Info.plist */; settings = {ATTRIBUTES = (Private, ); }; };
 		F96F6BFA1E841454006CD6C1 /* Morton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F96F6BF01E841454006CD6C1 /* Morton.framework */; };
 		F96F6BFF1E841454006CD6C1 /* Morton64Spec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96F6BFE1E841454006CD6C1 /* Morton64Spec.swift */; };
 		F9AF18C11E8415EF00802C23 /* Morton64.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF18C01E8415EF00802C23 /* Morton64.swift */; };
@@ -109,6 +110,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B361B15121490EF100206086 /* Info.plist in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
