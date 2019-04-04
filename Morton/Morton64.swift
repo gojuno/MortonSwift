@@ -109,14 +109,15 @@ public final class Morton64 {
 
 private extension Morton64 {
     func shiftSign(_ value: Int64) throws -> UInt64 {
-        guard value < (1 << (bits - 1)).toInt64 && value > -(1 << (bits - 1)).toInt64 else {
+        let edgeValue = (1 << (bits - 1)).toInt64
+        guard value < edgeValue && value > -edgeValue else {
             throw Morton64Error.sPackBadValue(value: value)
         }
 
         var svalue: Int64 = value
         if svalue < 0 {
             svalue = -svalue
-            svalue |= (1 << (bits - 1)).toInt64
+            svalue |= edgeValue
         }
 
         return svalue.toUInt64
